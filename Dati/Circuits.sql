@@ -1,7 +1,0 @@
-CREATE TABLE [dbo].[Circuits]
-(
-	[id] INT NOT NULL PRIMARY KEY IDENTITY, 
-	[name] VARCHAR(256) NOT NULL, 
-	[length] VARCHAR(30) NOT NULL, 
-	[recordLap] VARCHAR(30) NOT NULL
-);

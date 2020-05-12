@@ -1,6 +1,0 @@
-CREATE TABLE [dbo].[Scores]
-(
-	[pos] INT NOT NULL PRIMARY KEY IDENTITY, 
-	[score] INT NOT NULL, 
-	[details] VARCHAR(128) NOT NULL
-);
