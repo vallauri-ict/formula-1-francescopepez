@@ -1,1 +1,31 @@
-﻿
+﻿.table-active{
+    border:1px solid black;
+    border-left:1px solid black;
+}
+
+body{
+    overflow-x:hidden;
+}
+
+td{
+    border-right:1px solid black;
+}
+#info h1{
+    text-align:center;
+}
+
+#trI{
+    font-weight:bold;
+}
+
+#caricaDrivers, #caricaTeams, #caricaCircuits {
+    border: 2px solid red;
+    border-radius:7px;
+    background-color:#f55;
+    color:white;
+    font-weight:bold;
+}
+
+#caricaDrivers:hover, #caricaTeams:hover, #caricaCircuits:hover{
+    cursor:pointer;
+}

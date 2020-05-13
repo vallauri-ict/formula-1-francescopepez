@@ -32,8 +32,8 @@ $(() => {
 
 function creaTabellaDrivers(drivers)
 {
-    let _table = $("<table>");
-    _table.append($("<tr><td>ID</td><td>First Name</td><td>Last Name</td><td>Nationality</td><td>Photo</td></tr>"));
+    let _table = $("<table>").addClass("table");
+    _table.append($("<tr id='trI'><td class='table-primary'>ID</td><td class='table-active'>First Name</td><td class='table-active'>Last Name</td><td class='table-active'>Nationality</td><td class='table-active'>Photo</td></tr>"));
     for (let i = 0; i < drivers.length; i++)
     {
         let row = $("<tr>");
@@ -49,11 +49,12 @@ function creaTabellaDrivers(drivers)
             {
                 let _img = $("<img>");
                 _img.prop("src", drivers[i][index]);
-                _img.prop("height", "50");
+                _img.prop("height", "50").css("margin-left","8px");
                 row.append(_img);
             }
         }
-        let btnInfo = $(`<input type='button' onclick='visualizzaDriver(${drivers[i]["id"]})' value='Info'>`);
+        let btnInfo = $(`<input type='button' onclick='visualizzaDriver(${drivers[i]["id"]})' value='Info' class="btn btn-info">`).css("margin-left", "20px").on("click",()=>alert("Dati caricati correttamente a fondo pagina!"));
+
         row.append(btnInfo);
         _table.append(row);
 
@@ -75,40 +76,70 @@ function visualizzaDriver(_driverId)
         let desc = data["description"];
         let nazionalita = data["country"]["countryName"];
         _info.append($(`<h1>${nome} ${cognome}</h1>`));
-        let _p = $(`<p>Date of Birth: ${dob.split('T')[0]}</p>`);
-        _info.append(_p);
-        _p = $(`<p>Place of Birth: ${luogoNascita}</p>`);
-        _info.append(_p);
-        _p = $(`<p>Nationality: ${nazionalita}</p>`);
-        _info.append(_p);
-        let _img = $("<img>");
+
+        let _div = $("<div class='row'></div>");
+        _div.append($("<div class='col-sm-4'></div>"));
+        let _p = $(`<p class="col-sm-4"><b>Date of Birth:</b> ${dob.split('T')[0]}</p>`);
+        _div.append(_p);
+        _info.append(_div);
+        _div = $("<div class='row'></div>");
+        _div.append($("<div class='col-sm-4'></div>"));
+        _p = $(`<p class="col-sm-4"><b>Place of Birth:</b> ${luogoNascita}</p>`);
+        _div.append(_p);
+        _info.append(_div);
+        _div = $("<div class='row'></div>");
+        _div.append($("<div class='col-sm-4'></div>"));
+        _p = $(`<p class="col-sm-4"><b>Nationality:</b> ${nazionalita}</p>`);
+        _div.append(_p);
+        _info.append(_div);
+
+        _div = $("<div class='row'></div>");
+        _div.append($("<div class='col-sm-2'></div>"));
+        let _img = $("<img class='col-sm-3 img-responsive'>");
         _img.prop("src", foto);
-        _img.prop("height", "150");
-        _info.append(_img);
-        _p = $(`<p>${desc}</p>`);
-        _info.append(_p);
+        _img.css("max-height", "15em");
+        _img.css("max-width", "15em");
+        _div.append(_img);
+        _p = $(`<p class="col-sm-6">${desc}</p>`);
+        _div.append(_p);
+        _info.append(_div);
+        _info.append($("<div id='farlocs'></div>"));
     });
 }
 
 function creaTabellaTeams(teams) {
-    let _table = $("<table>");
-    _table.append($("<tr><td>ID</td><td>Name</td><td>Country</td><td>Logo</td><td>First Driver</td><td>Second Driver</td><td>Car Photo</td></tr>"));
+    let _table = $("<table>").addClass("table");;
+    _table.append($("<tr id='trI'><td class='table-primary'>ID</td><td class='table-active'>Name</td><td class='table-active'>Country</td><td class='table-active'>Logo</td><td class='table-active'>First Driver</td><td class='table-active'>Second Driver</td><td class='table-active'>Car Photo</td></tr>"));
     for (let i = 0; i < teams.length; i++) {
         let row = $("<tr>");
         for (let index in teams[i]) {
             let cell = $("<td>");
             if (index != "img" && index!="logo") {
                 cell.text(teams[i][index]);
+                console.log(index);
+                if (index == "firstdriver")
+                    cell.css("border-left", "1px solid black");
                 row.append(cell);
             }
             else {
-                let _img = $("<img>");
-                _img.prop("src", teams[i][index]);
-                _img.prop("height", "50");
-                row.append(_img);
+                if (index == "logo") {
+                    let _div = $("<div>");
+                    let _img = $("<img>");
+                    _img.prop("src", teams[i][index]);
+                    _img.prop("height", "50");
+                    _div.append(_img).addClass("text-center");
+                    row.append(_div);
+                }
+
+                else {
+                    let _img = $("<img>");
+                    _img.prop("src", teams[i][index]);
+                    _img.prop("height", "50");
+                    row.append(_img);
+                }
             }
         }
-        let btnInfo = $(`<input type='button' onclick='visualizzaTeam(${teams[i]["id"]})' value='Info'>`);
+        let btnInfo = $(`<input type='button' onclick='visualizzaTeam(${teams[i]["id"]})' value='Info' class="btn btn-info">`).css("margin-left", "20px");
         row.append(btnInfo);
         _table.append(row);
 
@@ -132,33 +163,66 @@ function visualizzaTeam(_teamId) {
         let technicalChief = data["technicalChief"];
         let secondoDriver = data["secondDriver"]["firstname"] + " " + data["secondDriver"]["lastname"];
 
-        _info.append($(`<h1>${nome}</h1>`));
+        let _div = $("<div class='row'></div>");
+        _div.append($("<div class='col-sm-3'></div>"));
+
+        _div.append($(`<h1 class='col-sm-4' style='line-height:150px'>${nome}</h1>`));
+
+
+
         let _img = $("<img>");
         _img.prop("src", logo);
         _img.prop("height", "150");
-        _info.append(_img);
-        let _p = $(`<p>Full team Name: ${nomeCompleto}</p>`);
-        _info.append(_p);
-        _p = $(`<p>Country: ${paese}</p>`);
-        _info.append(_p);
-        _p = $(`<p>Chassis: ${chassis}</p>`);
-        _info.append(_p);
-        _p = $(`<p>Power unit: ${powerUnit}</p>`);
-        _info.append(_p);
-        _p = $(`<p>TechnicalChief: ${technicalChief}</p>`);
-        _info.append(_p);
-        _p = $(`<p>Drivers: ${primoDriver}, ${secondoDriver}</p>`);
-        _info.append(_p);
+        _div.append(_img);
+        _info.append(_div);
+
+        _div = $("<div class='row'></div>");
+        _div.append($("<div class='col-sm-4'></div>"));
+        let _p = $(`<p class="col-sm-4"><b>Full team Name:</b> ${nomeCompleto}</p>`);
+        _div.append(_p);
+        _info.append(_div);
+
+
+        _div = $("<div class='row'></div>");
+        _div.append($("<div class='col-sm-4'></div>"));
+        _p = $(`<p class="col-sm-4"><b>Country:</b> ${paese}</p>`);
+        _div.append(_p);
+        _info.append(_div);
+
+        _div = $("<div class='row'></div>");
+        _div.append($("<div class='col-sm-4'></div>"));
+        _p = $(`<p class="col-sm-4"><b>Chassis:</b> ${chassis}</p>`);
+        _div.append(_p);
+        _info.append(_div);
+
+        _div = $("<div class='row'></div>");
+        _div.append($("<div class='col-sm-4'></div>"));
+        _p = $(`<p class="col-sm-4"><b>Power unit:</b> ${powerUnit}</p>`);
+        _div.append(_p);
+        _info.append(_div);
+
+        _div = $("<div class='row'></div>");
+        _div.append($("<div class='col-sm-4'></div>"));
+        _p = $(`<p class="col-sm-4"><b>Technical Chief:</b> ${technicalChief}</p>`);
+        _div.append(_p);
+        _info.append(_div);
+
+        _div = $("<div class='row'></div>");
+        _div.append($("<div class='col-sm-4'></div>"));
+        _p = $(`<p class="col-sm-4"><b>Drivers:</b> ${primoDriver}, ${secondoDriver}</p>`);
+        _div.append(_p);
+        _info.append(_div);
+
         _img = $("<img>");
         _img.prop("src", foto);
         _img.prop("height", "150");
-        _info.append(_img);
+        _info.append($("<center>").append(_img));
     });
 }
 
 function creaTabellaCircuits(circuits) {
-    let _table = $("<table>");
-    _table.append($("<tr><td>ID</td><td>Name</td><td>Length (m)</td><td>Number of Laps</td><td>Country</td><td>Photo</td></tr>"));
+    let _table = $("<table>").addClass("table");;
+    _table.append($("<tr id='trI'><td class='table-primary'>ID</td><td class='table-active'>Name</td><td class='table-active'>Length (m)</td><td class='table-active'>Number of Laps</td><td class='table-active'>Country</td><td class='table-active'>Photo</td></tr>"));
     for (let i = 0; i < circuits.length; i++) {
         let row = $("<tr>");
         for (let index in circuits[i]) {
@@ -173,10 +237,12 @@ function creaTabellaCircuits(circuits) {
                 row.append(cell);
             }
             else {
+                let _div=$("<div>")
                 let _img = $("<img>");
                 _img.prop("src", circuits[i][index]);
                 _img.prop("height", "50");
-                row.append(_img);
+                _div.append(_img).addClass("text-center");
+                row.append(_div);
             }
         }
         _table.append(row);
